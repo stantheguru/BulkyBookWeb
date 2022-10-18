@@ -21,7 +21,7 @@
 
 		<div class="mb-3">
 			<label asp-for="Image">Image</label>
-			<input type="file"  name="photo" class="form-control" />
+			<input accept="image/*" type="file"  name="photo" class="form-control" />
 			<span asp-validation-for="Image" class="text-danger"></span>
 		</div>
 		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
