@@ -1,6 +1,8 @@
 ﻿using BulkyBookWeb.Data;
 using BulkyBookWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 
 namespace BulkyBookWeb.Controllers
 {
@@ -23,6 +25,26 @@ namespace BulkyBookWeb.Controllers
             return View(objCategoryList);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Search(string? q)
+        {
+            if (q == "")
+            {
+                TempData["error"] = "Please enter a text to search";
+                return View();
+            }
+            else
+            {
+               
+                IEnumerable<Category> objCategoryList = _db.Categories.Where(cats => cats.Name.Contains(q));
+                return View(objCategoryList);
+            }
+
+            
+            
+        }
+
 
         public IActionResult Create()
         {
@@ -30,7 +52,7 @@ namespace BulkyBookWeb.Controllers
             return View();
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
         {
@@ -47,7 +69,7 @@ namespace BulkyBookWeb.Controllers
             }
             return View(obj);
             
-        }
+        }*/
 
         public IActionResult Edit(int? id)
         {
@@ -84,6 +106,37 @@ namespace BulkyBookWeb.Controllers
 
         }
 
+        /*public async Task<IActionResult> Update(Category postNin, IFormFile photo)
+        {
+
+            if (photo != null && photo.Length > 0)
+            {
+                var fileName = Path.GetFileName(photo.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                var file_name = "/images/" + fileName;
+                postNin.Image = file_name;
+                _db.Categories.Update(postNin);
+                _db.SaveChanges();
+                using (var fileSrteam = new FileStream(filePath, FileMode.Create))
+                {
+                    await photo.CopyToAsync(fileSrteam);
+                    TempData["success"] = postNin;
+
+                }
+                TempData["error"] = "An error occurred";
+            }
+            else
+            {
+               
+                _db.Categories.Update(postNin);
+                _db.SaveChanges();
+                TempData["success"] = "Category updated successfully";
+
+            }
+            return RedirectToAction("Index");
+        }
+        */
+
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
@@ -119,6 +172,35 @@ namespace BulkyBookWeb.Controllers
             return RedirectToAction("Index");
             
 
+        }
+
+        
+
+        public async Task<IActionResult> Save(Category postNin, IFormFile photo)
+        {
+            if (photo != null && photo.Length > 0)
+            {
+                var fileName = Path.GetFileName(photo.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                var file_name = "/images/"+fileName;
+                postNin.Image = file_name;
+                _db.Categories.Add(postNin);
+                _db.SaveChanges();
+                using (var fileSrteam = new FileStream(filePath, FileMode.Create))
+                {
+                    await photo.CopyToAsync(fileSrteam);
+                    TempData["success"] = "Category Saved successfully";
+                    return RedirectToAction("Index");
+
+                }
+                
+            }
+            else
+            {
+                TempData["error"] = "Please select an image";
+                return RedirectToAction("Create");
+            }
+            
         }
     }
 }

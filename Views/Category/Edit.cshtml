@@ -2,6 +2,7 @@
 
 
 <form method="post" asp-action="Edit">
+	<input asp-for="Image" class="form-control" hidden/>
 	<div class="border p-3 mt-4">
 		<div class="row pb-2">
 			<h2 class="text-primary">Edit Category</h2>
@@ -20,7 +21,7 @@
 			<span asp-validation-for="DisplayOrder" class="text-danger"></span>
 		</div>
 		<button type="submit" class="btn btn-primary" style="width:150px">Update</button>
-		<a asp-action="Edit" asp-controller="Category" class="btn btn-secondary" style="width:150px">
+		<a asp-action="Index" asp-controller="Category" class="btn btn-secondary" style="width:150px">
 			Back To List
 		</a>
 
