@@ -1,6 +1,8 @@
 ﻿using BulkyBookWeb.Data;
 using BulkyBookWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using BulkyBookWeb.Areas.Identity.Data;
+
 
 namespace BulkyBookWeb.Controllers
 {

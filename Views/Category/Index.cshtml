@@ -3,8 +3,11 @@
     ViewData["Title"] = "Index";
 }
 
+
+
 <div class ="container p-3">
     <div class="row pt-4">
+
         <div class="col-6">
             <h2 class="text-primary">Category List</h2>
         </div>
@@ -13,6 +16,10 @@
                 <i class="bi bi-plus-circle"></i> &nbsp; Create New Category
             </a>
         </div>
+        <form method="post" asp-controller="Category" asp-action="Search" class="d-flex">
+            <input name="q" class="form-control me-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
     </div>
 </div>
 <br/><br/>
